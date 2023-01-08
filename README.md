@@ -155,3 +155,125 @@ Code Severity   Keyword       Description
 
 $IncludeConfig /etc/rsyslog.d/*.conf
 
+### Loging Rules
+- Selector field
+ -FACILITY.SEVERITY
+ -mail.*
+ -mail
+ -FACILITY.none
+ -FACILITY_1.SEVERITY;FACILITY_2.SEVERITY
+-Action field
+ -Determines how a message is processed
+
+### Example Logging Rule
+mail.*  /var/log/mail.log
+
+### Caching vs Non-caching
+
+- Caching is used if the path starts with a hyphen
+ - mail.info    -/var/log/mail.info
+- You may lose some messages during a system crash if you are usinhg caching mode
+- Using caching mode can improve I/O performance.
+
+### Example Logging Rules
+
+mail.info   -/var/log/mail.info
+mail.warn   -/var/log/mail.warn
+mail.err    /var/log/mail.err
+
+### Example Logging Rules
+
+auth,authpriv.*                 /var/log/auth.log
+*.*;auth.none,authpriv.none     -/var/log/syslog
+
+### Example Logging Rules
+
+*.info:mail.none;authpriv.none;cron.none /var/log/messages
+
+### logger
+
+logger [options] message
+
+Options:
+-p FACILITY.SEVERITY
+-t TAG
+
+$ logger -p mail.info -t mailtest "Test."
+$ sudo tail -l /var/log/mail.log
+Apr 4 14:33:16 linuxsvr mailtest: Test.
+
+### logrotate
+
+to rotate, remove, rotate, mail the log files
+
+/etc/logrotate.conf
+
+include /etc/logrotate.d
+
+Example of the logrotate.conf file:
+
+weekley
+rotate 4
+create
+compressed
+include /etc/logrotate.d
+
+Test the logrotate configuration
+'#' logrotate -fv /etc/logrotate.conf
+
+## Partitions
+
+-Disks can be divided into parts, called partitions
+-Partitions allow you to separate data.
+-Partitons schemes
+ 1)OS, 2)Applications, 3)User, 4)Swap
+ 1)OS, 2)User home directories
+ As a system administrator, you decide.
+
+### Partitioning
+- Can protect the overall system.
+- Keep users from creating outages by usin a home directory partition.
+
+$ df -h
+
+### MBR
+- Master Boot Record
+- Can only address 2 TB of disk space
+- Being phased out by GPT
+ - DPT = GUID Partition Table
+- 4 Primary Partitions
+- Extended partitions allow you to create logical partitions
+
+###GPT
+- GPT = GUID Partition Table
+- GUID = Global Unique Identifier
+- Replacing the MBR partitioning scheme 
+- Part of UEFI
+- UEFI = Unified Extensible Firmware Interface
+- UEFI is replacing BIOS
+- Supports up to 128 partitions
+- Supports up to 9,4 ZB disk sizes
+- Not supported by older operating systems
+- May require newer or special tools
+
+### Mount Points
+
+- A directory used to access the data on a partition
+- /(slash) is always a mount point
+- /home
+ - /home/jason is on the partition mounted on /home
+- /export/home
+ - /export/jome/jason
+
+### Mounting over existing data
+
+mkdir /home/sarah
+mount /dev/sdb2 /home
+* You will not be able to see /home/sarah now
+
+unmount /home
+* You can now see /home/sarah again.
+
+
+
+
