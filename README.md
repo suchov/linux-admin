@@ -275,5 +275,3 @@ unmount /home
 * You can now see /home/sarah again.
 
 
-
-
