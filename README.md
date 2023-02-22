@@ -274,4 +274,52 @@ mount /dev/sdb2 /home
 unmount /home
 * You can now see /home/sarah again.
 
+you can mount partitions on anywhere of the linux tree
+
+### fdisk
+
+Alternative gdisk, parted 
+Erlier versions of fdisk did not support GPT
+fdisk /path/to/device
+latest version of fdisk support GPT
+
+## Disk Management
+### fdisk
+
+how to use fdisk to create GPT or MBR partition tables
+
+## Creating & mounting/unmounting filesystem prepare swap space for use
+
+## File Systems
+
+### ext = Extended file system
+ - ext2, ext3, and ext4 are later releases
+ - Often the default file system type
+### Other file systems
+ - ReiserFS
+ - JFS
+ - XFG
+ - ZFS
+ - Btrfs
+
+### mkfs
+
+mkfs -t TYPE DEVICE - creates the file system
+
+mkfs -t ext3 /dev/sdb2
+
+mkfs -t ext4 /dev/sdb3
+
+### mounting with mount
+
+mount /dev/sdb3 /opt
+
+to mount the sdb3 on otp
+
+mount - just by itself shows all that is mounted
+df -h command - shows the shortest version of what is mounted
+
+### Manual mounts do not persist 
+In order to make mounts persist between reboots, add an entry in the /etc/fstab file
+
 
